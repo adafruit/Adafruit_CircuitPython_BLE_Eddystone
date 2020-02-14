@@ -56,10 +56,10 @@ _SUBSTITUTIONS = (
 
 class _EncodedEddystoneUrl(EddystoneFrameBytes):
     """Packs and unpacks an encoded url"""
-    def __init__(self, *, offset=0):
-        super().__init__(offset=offset)
 
     def __get__(self, obj, cls):
+        if obj is None:
+            return self
         short_url = bytes(super().__get__(obj, cls))
 
         if short_url[0] < len(_URL_SCHEMES):
