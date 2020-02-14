@@ -34,25 +34,20 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Eddystone.git"
 
 # These prefixes are replaced with a single one-byte scheme number.
-_URL_SCHEMES = (
-    b'http://www.',
-    b'https://www.',
-    b'http://',
-    b'https://'
-    )
+_URL_SCHEMES = (b"http://www.", b"https://www.", b"http://", b"https://")
 
 # These common domains are replaced with a single non-printing byte.
 # Byte value is 0-6 for these with a '/' suffix.
 # Byte value is 7-13 for these without the '/' suffix.
 _SUBSTITUTIONS = (
-    b'.com',
-    b'.org',
-    b'.edu'
-    b'.net',
-    b'.info',
-    b'.biz',
-    b'.gov',
+    b".com",
+    b".org",
+    b".edu" b".net",
+    b".info",
+    b".biz",
+    b".gov",
 )
+
 
 class _EncodedEddystoneUrl(EddystoneFrameBytes):
     """Packs and unpacks an encoded url"""
@@ -66,29 +61,29 @@ class _EncodedEddystoneUrl(EddystoneFrameBytes):
             short_url = _URL_SCHEMES[short_url[0]] + short_url[1:]
 
         for code, subst in enumerate(_SUBSTITUTIONS):
-            code = bytes(chr(code), 'ascii')
-            short_url = short_url.replace(code, subst + b'/')
+            code = bytes(chr(code), "ascii")
+            short_url = short_url.replace(code, subst + b"/")
         for code, subst in enumerate(_SUBSTITUTIONS, 7):
-            code = bytes(chr(code), 'ascii')
+            code = bytes(chr(code), "ascii")
             short_url = short_url.replace(code, subst)
 
-        return str(short_url, 'ascii')
+        return str(short_url, "ascii")
 
     def __set__(self, obj, url):
         short_url = None
-        url = bytes(url, 'ascii')
+        url = bytes(url, "ascii")
         for idx, prefix in enumerate(_URL_SCHEMES):
             if url.startswith(prefix):
-                short_url = url[len(prefix):]
-                short_url = bytes(chr(idx), 'ascii') + short_url
+                short_url = url[len(prefix) :]
+                short_url = bytes(chr(idx), "ascii") + short_url
                 break
         if not short_url:
             raise ValueError("url does not start with one of: ", _URL_SCHEMES)
         for code, subst in enumerate(_SUBSTITUTIONS):
-            code = bytes(chr(code), 'ascii')
-            short_url = short_url.replace(subst + b'/', code)
+            code = bytes(chr(code), "ascii")
+            short_url = short_url.replace(subst + b"/", code)
         for code, subst in enumerate(_SUBSTITUTIONS, 7):
-            code = bytes(chr(code), 'ascii')
+            code = bytes(chr(code), "ascii")
             short_url = short_url.replace(subst, code)
 
         super().__set__(obj, short_url)
@@ -99,6 +94,7 @@ class EddystoneURL(EddystoneAdvertisement):
 
     :param str url: Target url
     :param int tx_power: TX power in dBm"""
+
     prefix = b"\x03\x03\xaa\xfe\x04\x16\xaa\xfe\x10"
     tx_power = EddystoneFrameStruct("<B", offset=0)
     """TX power in dBm"""
