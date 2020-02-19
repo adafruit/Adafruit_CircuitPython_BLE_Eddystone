@@ -42,7 +42,8 @@ _URL_SCHEMES = (b"http://www.", b"https://www.", b"http://", b"https://")
 _SUBSTITUTIONS = (
     b".com",
     b".org",
-    b".edu" b".net",
+    b".edu",
+    b".net",
     b".info",
     b".biz",
     b".gov",
