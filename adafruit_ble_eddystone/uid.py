@@ -41,6 +41,7 @@ class EddystoneUID(EddystoneAdvertisement):
        :param bytes namespace_id: namespace component of the id. 6 bytes long
        :param int tx_power: TX power at the beacon
     """
+
     prefix = b"\x03\x03\xaa\xfe\x04\x16\xaa\xfe\x00"
 
     tx_power = EddystoneFrameStruct("<B", offset=0)
