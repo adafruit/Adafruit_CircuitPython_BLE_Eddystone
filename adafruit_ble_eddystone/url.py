@@ -96,7 +96,8 @@ class EddystoneURL(EddystoneAdvertisement):
     :param str url: Target url
     :param int tx_power: TX power in dBm"""
 
-    prefix = b"\x03\x03\xaa\xfe\x04\x16\xaa\xfe\x10"
+    match_prefixes = (b"\x03\xaa\xfe", b"\x16\xaa\xfe\x10")
+    frame_type = b"\x10"
     tx_power = EddystoneFrameStruct("<B", offset=0)
     """TX power in dBm"""
 

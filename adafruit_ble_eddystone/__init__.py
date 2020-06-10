@@ -106,7 +106,7 @@ class EddystoneFrameStruct(EddystoneFrameBytes):
 class EddystoneAdvertisement(Advertisement):
     """Top level Eddystone advertisement that manages frame type. For library use only."""
 
-    # Subclasses must provide `prefix`.
+    # Subclasses must provide `match_prefixes`.
     services = ServiceList(standard_services=[0x03], vendor_services=[0x07])
     eddystone_frame = _EddystoneFrame()
 
@@ -116,16 +116,9 @@ class EddystoneAdvertisement(Advertisement):
         self.connectable = False
         self.flags.general_discovery = True
         self.flags.le_only = True
-        self.frame_type = bytearray(1)
-        # Frame type is in the prefix.
-        self.frame_type[0] = self.prefix[-1]
+        # self.frame_type is defined by the subclass.
         if not self.eddystone_frame:
             self.eddystone_frame = bytearray(minimum_size)
-
-    @classmethod
-    def matches(cls, entry):
-        """True if the entry matches all of the prefixes. This is stricter than the scan."""
-        return entry.matches(cls.prefix, all=True)
 
     def __str__(self):
         parts = []
