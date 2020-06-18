@@ -42,7 +42,8 @@ class EddystoneUID(EddystoneAdvertisement):
        :param int tx_power: TX power at the beacon
     """
 
-    prefix = b"\x03\x03\xaa\xfe\x04\x16\xaa\xfe\x00"
+    match_prefixes = (b"\x03\xaa\xfe", b"\x16\xaa\xfe\x00")
+    frame_type = b"\x00"
 
     tx_power = EddystoneFrameStruct("<B", offset=0)
     """TX power at the beacon in dBm"""
