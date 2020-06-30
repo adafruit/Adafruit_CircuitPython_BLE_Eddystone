@@ -58,7 +58,8 @@ class _EddystoneFrame(ServiceData):
         return super().__get__(obj, cls)[1:]
 
     def __set__(self, obj, value):
-        return super().__set__(obj, obj.frame_type + value)
+        # ServiceData requires a bytearray.
+        return super().__set__(obj, bytearray(obj.frame_type) + value)
 
 
 class EddystoneFrameBytes:
