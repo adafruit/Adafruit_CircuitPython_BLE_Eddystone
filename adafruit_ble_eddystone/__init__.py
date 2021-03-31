@@ -94,8 +94,11 @@ class EddystoneAdvertisement(Advertisement):
     services = ServiceList(standard_services=[0x03], vendor_services=[0x07])
     eddystone_frame = _EddystoneFrame()
 
-    def __init__(self, *, minimum_size=None):
-        super().__init__()
+    def __init__(self, *, minimum_size=None, entry=None):
+        super().__init__(entry=entry)
+        # Return early if things have been set by an existing ScanEntry.
+        if entry:
+            return
         self.services.append(_EddystoneService)
         self.connectable = False
         self.flags.general_discovery = True
