@@ -10,7 +10,7 @@ requires = [
 
 [project]
 name = "adafruit-circuitpython-ble-eddystone"
-description = "CircuitPython BLE library for Google's open "physical web" Eddystone."
+description = "CircuitPython BLE library for Google's open 'physical web' Eddystone."
 version = "0.0.0-auto.0"
 readme = "README.rst"
 authors = [
