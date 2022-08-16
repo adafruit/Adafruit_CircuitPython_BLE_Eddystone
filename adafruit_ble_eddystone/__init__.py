@@ -18,7 +18,7 @@ from adafruit_ble.advertising import Advertisement
 from adafruit_ble.advertising.standard import ServiceList, ServiceData
 from adafruit_ble.uuid import StandardUUID
 
-__version__ = "0.0.0-auto.0"
+__version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Eddystone.git"
 
 
