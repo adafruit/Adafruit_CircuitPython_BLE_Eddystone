@@ -39,7 +39,7 @@ classifiers = [
 dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools]
-py-modules = ["adafruit_ble_eddystone"]
+packages = ["adafruit_ble_eddystone"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
