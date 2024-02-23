@@ -68,7 +68,7 @@ class EddystoneFrameBytes:
                 raise ValueError("Value length does not match")
             obj.eddystone_frame[self._offset : self._offset + self._length] = value
         else:
-            obj.eddystone_frame = obj.eddystone_frame[: self._offset] + value
+            obj.eddystone_frame = bytes(obj.eddystone_frame[: self._offset]) + value
 
 
 class EddystoneFrameStruct(EddystoneFrameBytes):
