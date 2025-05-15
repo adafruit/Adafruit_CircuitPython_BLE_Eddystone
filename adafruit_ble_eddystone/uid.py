@@ -11,13 +11,13 @@ https://github.com/google/eddystone/tree/master/eddystone-uid
 
 """
 
-from . import EddystoneAdvertisement, EddystoneFrameStruct, EddystoneFrameBytes
+from . import EddystoneAdvertisement, EddystoneFrameBytes, EddystoneFrameStruct
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Eddystone.git"
 
 
-class EddystoneUID(EddystoneAdvertisement):  # pylint: disable=too-few-public-methods
+class EddystoneUID(EddystoneAdvertisement):
     """Static Eddystone unique identifier.
 
     :param bytes instance_id: instance component of the id. 10 bytes long
