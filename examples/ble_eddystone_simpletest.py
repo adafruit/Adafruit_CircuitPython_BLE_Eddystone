@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: MIT
 
 """This example broadcasts our Mac Address as our Eddystone ID and a link to the Adafruit Discord
-   server."""
+server."""
 
 import time
 
 import adafruit_ble
+
 from adafruit_ble_eddystone import uid, url
 
 radio = adafruit_ble.BLERadio()

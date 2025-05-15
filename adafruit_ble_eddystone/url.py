@@ -11,7 +11,7 @@ https://github.com/google/eddystone/tree/master/eddystone-url
 
 """
 
-from . import EddystoneAdvertisement, EddystoneFrameStruct, EddystoneFrameBytes
+from . import EddystoneAdvertisement, EddystoneFrameBytes, EddystoneFrameStruct
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Eddystone.git"
@@ -73,7 +73,7 @@ class _EncodedEddystoneUrl(EddystoneFrameBytes):
         super().__set__(obj, short_url)
 
 
-class EddystoneURL(EddystoneAdvertisement):  # pylint: disable=too-few-public-methods
+class EddystoneURL(EddystoneAdvertisement):
     """Eddystone URL broadcast.
 
     :param str url: Target url

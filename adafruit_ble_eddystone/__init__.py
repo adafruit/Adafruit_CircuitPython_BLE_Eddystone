@@ -15,7 +15,7 @@ Documented by Google here: https://github.com/google/eddystone
 import struct
 
 from adafruit_ble.advertising import Advertisement
-from adafruit_ble.advertising.standard import ServiceList, ServiceData
+from adafruit_ble.advertising.standard import ServiceData, ServiceList
 from adafruit_ble.uuid import StandardUUID
 
 __version__ = "0.0.0+auto.0"
@@ -25,7 +25,6 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Eddystone.git
 class _EddystoneService:
     """Placeholder service. Not implemented."""
 
-    # pylint: disable=too-few-public-methods
     uuid = StandardUUID(0xFEAA)
 
 
@@ -116,5 +115,5 @@ class EddystoneAdvertisement(Advertisement):
                 if value is not None:
                     if isinstance(value, memoryview):
                         value = bytes(value)
-                    parts.append("{}={}".format(attr, repr(value)))
+                    parts.append(f"{attr}={repr(value)}")
         return "<{} {} >".format(self.__class__.__name__, " ".join(parts))
