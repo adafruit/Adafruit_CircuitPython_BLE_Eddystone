@@ -18,6 +18,12 @@ from adafruit_ble.advertising import Advertisement
 from adafruit_ble.advertising.standard import ServiceData, ServiceList
 from adafruit_ble.uuid import StandardUUID
 
+try:
+    from typing import Optional, Union
+    from _bleio import ScanEntry
+except ImportError:
+    pass
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Eddystone.git"
 
@@ -31,15 +37,17 @@ class _EddystoneService:
 class _EddystoneFrame(ServiceData):
     """Top level advertising data field that adds the field type to bytearrays set."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(_EddystoneService)
 
-    def __get__(self, obj, cls):
+    def __get__(
+        self, obj: Optional["EddystoneAdvertisement"], objtype: type
+    ) -> Union["_EddystoneFrame", memoryview]:
         if obj is None:
             return self
-        return super().__get__(obj, cls)[1:]
+        return super().__get__(obj, objtype)[1:]
 
-    def __set__(self, obj, value):
+    def __set__(self, obj: "EddystoneAdvertisement", value: bytes) -> None:
         # ServiceData requires a bytearray.
         return super().__set__(obj, bytearray(obj.frame_type) + value)
 
@@ -50,18 +58,20 @@ class EddystoneFrameBytes:
     If length is None, then the byte range must be at the end of the frame.
     """
 
-    def __init__(self, *, length=None, offset=0):
+    def __init__(self, *, length: Optional[int] = None, offset: int = 0) -> None:
         self._length = length
         self._offset = offset
 
-    def __get__(self, obj, cls):
+    def __get__(
+        self, obj: Optional["EddystoneAdvertisement"], objtype: type
+    ) -> Union["EddystoneFrameBytes", bytes]:
         if obj is None:
             return self
         if self._length is not None:
             return obj.eddystone_frame[self._offset : self._offset + self._length]
         return obj.eddystone_frame[self._offset :]
 
-    def __set__(self, obj, value):
+    def __set__(self, obj: "EddystoneAdvertisement", value: bytes) -> None:
         if self._length is not None:
             if self._length != len(value):
                 raise ValueError("Value length does not match")
@@ -73,16 +83,18 @@ class EddystoneFrameBytes:
 class EddystoneFrameStruct(EddystoneFrameBytes):
     """Packs and unpacks a single value from a byte range. For library use only."""
 
-    def __init__(self, fmt, *, offset=0):
+    def __init__(self, fmt: str, *, offset: int = 0) -> None:
         self._format = fmt
         super().__init__(offset=offset, length=struct.calcsize(self._format))
 
-    def __get__(self, obj, cls):
+    def __get__(
+        self, obj: Optional["EddystoneAdvertisement"], objtype: type
+    ) -> Union["EddystoneFrameStruct", int]:
         if obj is None:
             return self
-        return struct.unpack(self._format, super().__get__(obj, cls))[0]
+        return struct.unpack(self._format, super().__get__(obj, objtype))[0]
 
-    def __set__(self, obj, value):
+    def __set__(self, obj: "EddystoneAdvertisement", value: int) -> None:
         super().__set__(obj, struct.pack(self._format, value))
 
 
@@ -93,7 +105,9 @@ class EddystoneAdvertisement(Advertisement):
     services = ServiceList(standard_services=[0x03], vendor_services=[0x07])
     eddystone_frame = _EddystoneFrame()
 
-    def __init__(self, *, minimum_size=None, entry=None):
+    def __init__(
+        self, *, minimum_size: Optional[int] = None, entry: Optional["ScanEntry"] = None
+    ) -> None:
         super().__init__(entry=entry)
         # Return early if things have been set by an existing ScanEntry.
         if entry:
@@ -106,7 +120,7 @@ class EddystoneAdvertisement(Advertisement):
         if not self.eddystone_frame:
             self.eddystone_frame = bytearray(minimum_size)
 
-    def __str__(self):
+    def __str__(self) -> str:
         parts = []
         for attr in dir(self.__class__):
             attribute_instance = getattr(self.__class__, attr)
