@@ -20,6 +20,7 @@ from adafruit_ble.uuid import StandardUUID
 
 try:
     from typing import Optional, Union
+
     from _bleio import ScanEntry
 except ImportError:
     pass

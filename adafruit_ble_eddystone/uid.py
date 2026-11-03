@@ -40,11 +40,7 @@ class EddystoneUID(EddystoneAdvertisement):
     reserved = EddystoneFrameBytes(length=2, offset=17)
 
     def __init__(
-        self,
-        instance_id: bytes,
-        *,
-        namespace_id: bytes = b"CircuitPy!",
-        tx_power: int = 0
+        self, instance_id: bytes, *, namespace_id: bytes = b"CircuitPy!", tx_power: int = 0
     ) -> None:
         super().__init__(minimum_size=20)
         if self.mutable:
