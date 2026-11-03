@@ -13,6 +13,11 @@ https://github.com/google/eddystone/tree/master/eddystone-url
 
 from . import EddystoneAdvertisement, EddystoneFrameBytes, EddystoneFrameStruct
 
+try:
+    from typing import Optional, Union
+except ImportError:
+    pass
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Eddystone.git"
 
@@ -36,7 +41,9 @@ _SUBSTITUTIONS = (
 class _EncodedEddystoneUrl(EddystoneFrameBytes):
     """Packs and unpacks an encoded url"""
 
-    def __get__(self, obj, cls):
+    def __get__(
+        self, obj: Optional["EddystoneURL"], cls: type
+    ) -> Union["_EncodedEddystoneUrl", str]:
         if obj is None:
             return self
         short_url = bytes(super().__get__(obj, cls))
@@ -53,7 +60,7 @@ class _EncodedEddystoneUrl(EddystoneFrameBytes):
 
         return str(short_url, "ascii")
 
-    def __set__(self, obj, url):
+    def __set__(self, obj: "EddystoneURL", url: str) -> None:
         short_url = None
         url = bytes(url, "ascii")
         for idx, prefix in enumerate(_URL_SCHEMES):
@@ -87,7 +94,7 @@ class EddystoneURL(EddystoneAdvertisement):
     url = _EncodedEddystoneUrl(offset=1)
     """Target url"""
 
-    def __init__(self, url=None, *, tx_power=0):
+    def __init__(self, url: Optional[str] = None, *, tx_power: int = 0) -> None:
         super().__init__(minimum_size=1)
         self.tx_power = tx_power
         self.url = url
